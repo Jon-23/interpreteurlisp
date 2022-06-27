@@ -1,7 +1,3 @@
-
-
-data = [{'type':'number','value':14}]
-
 function assertEquals(actual, expected) {
     return_value = "";
     for (var i = 0; i < actual.length; i++) {
@@ -28,13 +24,4 @@ function assertEquals(actual, expected) {
     }
 }
 
-assertEquals(data,"14");
-
-
-// test = "1,2,3,4,5,6,7,8,9,10";
-// test = "1 2 3 4 5 6 7 8 9 10";
-// test = require("./test.lsp");
-// resultat = test.split(/( )/g);
-// test = "1、2、3".split(/(、)/g);
-// console.log(test);
-// console.log(resultat);
+module.exports.assertEquals = assertEquals;
