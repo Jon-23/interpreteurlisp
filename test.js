@@ -1,9 +1,9 @@
 /* Read :
-- 1 => {type:'number',value:1}
+- 1 => {type:'num',value:1}
 - "texte" => {type:'string',value:'texte'}
-- variable => {type:'variable',name:'variable'}
-- (function arg1 arg2) => {type:'apply',function:{type:'variable',name:'function'},args:[{type:'variable',name:'arg1'},{type:'variable',name:'arg2'}]}}
-- (+ 1 2) => {type:'apply',function:{type:'internal',value:'+'},args:[{type:'number',value:1},{type:'number',value:2}]}}
+- var => {type:'var',name:'var'}
+- (function arg1 arg2) => {type:'apply',function:{type:'var',name:'function'},args:[{type:'var',name:'arg1'},{type:'var',name:'arg2'}]}}
+- (+ 1 2) => {type:'apply',function:{type:'internal',value:'+'},args:[{type:'num',value:1},{type:'num',value:2}]}}
 */
 
 function assertEqualsRead(actual, expected,gotparent=false,name="",debug=true){
@@ -21,9 +21,9 @@ function assertEqualsRead(actual, expected,gotparent=false,name="",debug=true){
         return_value = [];
     }
     elements_types = {
-        number:'number',
+        num:'num',
         apply:'apply',
-        variable: 'variable',
+        var: 'var',
         internal:'internal',
         
     };
@@ -55,7 +55,7 @@ function assertEqualsRead(actual, expected,gotparent=false,name="",debug=true){
             return false;
         }
         switch(actual[i]['type']){
-            case elements_types['number']:
+            case elements_types['num']:
                 if (typeof(actual[i][elements_attributes['value']]) == 'undefined'){
                     if(debug){
                         console.error("Error object N°%s",i,JSON.stringify(actual[i]),". No value found.",);
@@ -100,7 +100,7 @@ function assertEqualsRead(actual, expected,gotparent=false,name="",debug=true){
                     return_value.push(actual[i]); 
                 }
                 break;
-            case elements_types['variable']:
+            case elements_types['var']:
                 if (typeof(actual[i][elements_attributes['name']]) == 'undefined'){
                     console.error("Error object N°%s",i,JSON.stringify(actual[i]),". No name found.");
                     if(gotparent === false && debug){
@@ -241,7 +241,7 @@ function assertEqualsEval(actual, expected) {
                 return_value +=  actual[i]['val'];
                 break;
                 
-            case 'number':
+            case 'num':
                 return_value += actual[i]['val'].toString();
                 break;
             default:
@@ -259,20 +259,21 @@ function assertEqualsEval(actual, expected) {
     }
 }
 
-module.exports.assertEquals = assertEqualsEval;
+module.exports.assertEqualsEval = assertEqualsEval;
+module.exports.assertEqualsRead = assertEqualsRead;
 // console.log("Test");
 // assertEqualsRead([{type:'test'}],[]);
-// assertEqualsRead([{type:'number'}],[]);
-// assertEqualsRead([{type:'number',value:1}],[{type:'number',value:1}]);
-// assertEqualsRead([{type:'number',value:1},{type:'number',value:3}],[{type:'number',value:2}]);
+// assertEqualsRead([{type:'num'}],[]);
+// assertEqualsRead([{type:'num',value:1}],[{type:'num',value:1}]);
+// assertEqualsRead([{type:'num',value:1},{type:'num',value:3}],[{type:'num',value:2}]);
 // assertEqualsRead([{type:'test',value:1}],[]);
-// assertEqualsRead([{type:'number',value:1}],[]);
-// assertEqualsRead([{type:'number',value:1}],[{type:'number',value:2}]);
-// assertEqualsRead([{type:'apply',function:{type:'variable',name:'function'},args:[{type:'variable',name:'arg1'},{type:'variable',name:'arg2'}]}],[{type:'apply',function:{type:'variable',name:'function'},args:[{type:'variable',name:'arg1'},{type:'variable',name:'arg2'}]}])
-// assertEqualsRead([{type:'apply',function:{type:'internal',value:'+'},args:[{type:'variable',name:'arg1'},{type:'variable',name:'arg2'}]}],[{type:'apply',function:{type:'variable',name:'function'},args:[{type:'variable',name:'arg1'},{type:'variable',name:'arg2'}]}]);
-// assertEqualsRead([{type:'apply',function:{type:'variable',name:'function'},args:[{type:'variable',name:'arg1'},{type:'variable',name:'arg2'}]}],[{type:'apply',function:{type:'variable',name:'function'},args:[{type:'variable',name:'arg1'},{type:'variable',name:'arg2'}]}])
+// assertEqualsRead([{type:'num',value:1}],[]);
+// assertEqualsRead([{type:'num',value:1}],[{type:'num',value:2}]);
+// assertEqualsRead([{type:'apply',function:{type:'var',name:'function'},args:[{type:'var',name:'arg1'},{type:'var',name:'arg2'}]}],[{type:'apply',function:{type:'var',name:'function'},args:[{type:'var',name:'arg1'},{type:'var',name:'arg2'}]}])
+// assertEqualsRead([{type:'apply',function:{type:'internal',value:'+'},args:[{type:'var',name:'arg1'},{type:'var',name:'arg2'}]}],[{type:'apply',function:{type:'var',name:'function'},args:[{type:'var',name:'arg1'},{type:'var',name:'arg2'}]}]);
+// assertEqualsRead([{type:'apply',function:{type:'var',name:'function'},args:[{type:'var',name:'arg1'},{type:'var',name:'arg2'}]}],[{type:'apply',function:{type:'var',name:'function'},args:[{type:'var',name:'arg1'},{type:'var',name:'arg2'}]}])
 
-// assertEqualsRead([{type:'apply',function:{type:'variable2',name:'function'},args:[{type:'variable',name:'arg1'},{type:'variable',name:'arg2'}]}],[{type:'apply',function:{type:'variable',name:'function'},args:[{type:'variable',name:'arg1'},{type:'variable',name:'arg2'}]}])
+// assertEqualsRead([{type:'apply',function:{type:'var2',name:'function'},args:[{type:'var',name:'arg1'},{type:'var',name:'arg2'}]}],[{type:'apply',function:{type:'var',name:'function'},args:[{type:'var',name:'arg1'},{type:'var',name:'arg2'}]}])
 
 // console.log(test);
 // exit()
