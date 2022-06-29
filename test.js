@@ -7,17 +7,18 @@
 */
 
 function assertEqualsRead(actual, expected,gotparent=false,name="",debug=true){
+    // console.log("test")
     if(gotparent === false){
         if(debug){
-            console.info("%c\n\n--------------------------------",'color: grey');
+            console.info("%c\n--------------------------------",'color: grey');
         }
         
         if (name != "" && debug){
             console.info("%c Test : %s ",'color: grey',name);
         }
-        if(debug){
-            console.info("%c\n\n--------------------------------",'color: grey');
-        }
+        // if(debug){
+        //     console.info("%c\n--------------------------------",'color: grey');
+        // }
         return_value = [];
     }
     if(Array.isArray(actual) == false){
@@ -52,7 +53,7 @@ function assertEqualsRead(actual, expected,gotparent=false,name="",debug=true){
     elements_attributes = {
         type:'type',
         name:'name',
-        value:'val',
+        value:'value',
         args:'args',
         function:'function',
     };

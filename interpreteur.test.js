@@ -7,13 +7,13 @@ var test = require("./test");
 var read = require("./read.js");
 var retour = require('./test.lsp');
 const { exit } = require('process');
-test = read.readJo(retour);
+// test = read.readJo(retour);
 // console.log(JSON.stringify(test));
 // read.readJo("a");
-while (true){
+// while (true){
 
-}
-exit();
+// }
+// exit();
 liste_test = [
     {
         input:'a',
@@ -26,7 +26,7 @@ liste_test = [
         input:'1',
         expected:[{
             type:'num',
-            value:1,
+            value:2,
         }]
     }
 ]

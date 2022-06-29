@@ -24,6 +24,7 @@ function isInternal(val){
     }else{
         return false;
     }
+}
 function addWithType(exp, type){
     // console.log(type);
     if(type.toLowerCase() == 'null'){
@@ -349,7 +350,7 @@ function readJo(exp,sans_workspace=true,simplify=false){
             }
         }
     }
-    console.log(JSON.stringify(lines_return));   
+    // console.log(JSON.stringify(lines_return));   
     // console.log(lines_return)
     return lines_return;
 }
