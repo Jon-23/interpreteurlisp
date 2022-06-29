@@ -14,7 +14,7 @@ function assertEqualsSimple(actual, expected) {
         case 'Object':
             if (actual.length == expected.length) {
                 for (let [key] of Object.entries(actual)) {
-                    if (assertEqualsReadSimple(actual[key], expected[key])){
+                    if (assertEqualsSimple(actual[key], expected[key])){
                         continue;
                     }
                     return false;
@@ -26,7 +26,7 @@ function assertEqualsSimple(actual, expected) {
         case 'Array':
             if (actual.length == expected.length) {
                 for(var i = 0; i < actual.length; i++) {
-                    if (assertEqualsReadSimple(actual[i], expected[i])) {
+                    if (assertEqualsSimple(actual[i], expected[i])) {
                         continue;
                     }else{
                         return false;

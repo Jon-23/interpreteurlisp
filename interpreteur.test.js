@@ -13,9 +13,9 @@ const { exit } = require('process');
 // while (true){
 
 // }
-console.log(test.assertEqualsReadSimple({type:'test'},{type:'test2'}))
-while (true){
-}
+// console.log(test.assertEqualsReadSimple({type:'test'},{type:'test2'}))
+// while (true){
+// }
 // exit();
 liste_test = [
     {
@@ -34,7 +34,7 @@ liste_test = [
     }
 ]
 for (var i = 0; i < liste_test.length; i++){
-    test.assertEqualsRead(read.readJo(liste_test[i]['input']),liste_test[i]['expected']);
+    console.log(test.assertEqualsSimple(read.readJo(liste_test[i]['input']),liste_test[i]['expected']));
 }
 while(true) {
 }
