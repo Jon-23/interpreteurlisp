@@ -5,7 +5,7 @@
 - (function arg1 arg2) => {type:'apply',function:{type:'var',name:'function'},args:[{type:'var',name:'arg1'},{type:'var',name:'arg2'}]}}
 - (+ 1 2) => {type:'apply',function:{type:'internal',value:'+'},args:[{type:'num',value:1},{type:'num',value:2}]}}
 */
-function assertEqualsReadSimple(actual, expected) {
+function assertEqualsSimple(actual, expected) {
     switch ((actual).constructor.name) {
         case 'Number':
         case 'String':
@@ -319,4 +319,4 @@ function assertEqualsEval(actual, expected) {
 
 module.exports.assertEqualsEval = assertEqualsEval;
 module.exports.assertEqualsRead = assertEqualsRead;
-module.exports.assertEqualsReadSimple = assertEqualsReadSimple;
+module.exports.assertEqualsSimple = assertEqualsSimple;
