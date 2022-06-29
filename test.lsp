@@ -5,7 +5,7 @@
 ;; variable2 'test'
 ;; a 21
 ;; b 34
-;; resultat (+ a b)
+;; (+ test)
 ;; test 1234
 ;; test (+ (+ 21 23) 34) 
 ;; test )(+ 21 34)

@@ -7,12 +7,12 @@ var test = require("./test");
 var read = require("./read.js");
 var retour = require('./test.lsp');
 const { exit } = require('process');
-// test = read.readJo(retour);
-// console.log(JSON.stringify(test));
+test = read.readJo(retour);
+console.log(JSON.stringify(test));
 // read.readJo("a");
-// while (true){
+while (true){
 
-// }
+}
 // console.log(test.assertEqualsReadSimple({type:'test'},{type:'test2'}))
 // while (true){
 // }

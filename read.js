@@ -140,21 +140,22 @@ function readLine(elements,array=[],line_n){
             // Si la valeur n'est pas la même j'ajoute un object de type_element du temp_value précedent et reinitialise le temp_value
             // Si il s'agit d'une ouverture de parentheses alors je rajoute un parent
             // Si il s'agit d'une fermeture de parentheses alors je retire un parent 
-            // Si il s'agit d'un string je passe in_string en true 
+            // Si il s'agit d'un string je passe in_string en true
             if(in_a_variable == null && variable_mode == false){
                 in_a_variable = false;
             }
             variable_mode = false;
             if(new_type_element == 'open_parenthesis'){
-                arbre.push({
+                // arbre.push({
                     type:'apply',
                 });
             }else if(new_type_element == 'close_parenthesis'){
+                // console.log(temp_value);
                 temp_arbre_element = arbre[arbre.length-1];
                 arbre.pop(arbre.length-1);
                 if(arbre[arbre.length-1]['type'] == 'var'){
+                    
                     arbre[arbre.length-1]['value'] = temp_arbre_element;
-                    temp_add = addWithType(temp_value, type_element);
                     temp_value = "";
                     if(temp_add !== false){
                         temp_arbre_element['args'].push(temp_add);
@@ -162,6 +163,10 @@ function readLine(elements,array=[],line_n){
                     type_element = new_type_element;
                     continue;
                 }else{
+                    temp_add = addWithType(temp_value, type_element);
+                    if(temp_add){
+                        temp_arbre_element['args'].push(temp_add);
+                    }
                     arbre[arbre.length-1]['args'].push(temp_arbre_element);
                 }
                 type_element = new_type_element;                
