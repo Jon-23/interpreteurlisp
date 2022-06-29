@@ -20,12 +20,31 @@ function assertEqualsRead(actual, expected,gotparent=false,name="",debug=true){
         }
         return_value = [];
     }
+    if(Array.isArray(actual) == false){
+        if(debug){
+            console.error("Element %s isn't an array",actual)
+        }
+        if(gotparent === false){
+            console.info("%c--------------------------------",'color: grey');
+        }
+        return false;
+    }
+    if(actual.length == 0){
+        if(debug){
+            console.error("Syntax error : Empty field");    
+        }
+        if(gotparent === false){
+            console.info("%c--------------------------------",'color: grey');
+        }
+        return false;
+    }
+    
     elements_types = {
         num:'num',
         apply:'apply',
         var: 'var',
+        // string:'str',
         internal:'internal',
-        
     };
     internal_values = {
         '+':'plus',
@@ -33,7 +52,7 @@ function assertEqualsRead(actual, expected,gotparent=false,name="",debug=true){
     elements_attributes = {
         type:'type',
         name:'name',
-        value:'value',
+        value:'val',
         args:'args',
         function:'function',
     };
@@ -182,12 +201,13 @@ function assertEqualsRead(actual, expected,gotparent=false,name="",debug=true){
         // }
         original_expected = JSON.stringify(expected);
         // console.log(JSON.stringify(expected))
+        return_value_second = [] 
         elements_not_equals = [];
         for(i=0;i<actual.length;i++){
             found = false;
             for(j=0;j<expected.length;j++){
                 if(JSON.stringify(expected[j]) == JSON.stringify(actual[i])){
-                    
+                    return_value_second.push(expected[j])
                     found = true;
                     expected.splice(j, 1);
                     break;
@@ -202,7 +222,8 @@ function assertEqualsRead(actual, expected,gotparent=false,name="",debug=true){
         }
         if(is_equals){
             if(debug){
-                console.info("%cExpected %s and correctely get %s",'color : green',original_expected,JSON.stringify(return_value));
+                // console.log(JSON.stringify(return_value_second));
+                console.info("%cExpected %s and correctely get %s",'color : green',original_expected,JSON.stringify(return_value_second));
             }
         }else{
             if(elements_not_equals.length > 0 && debug){
@@ -261,19 +282,3 @@ function assertEqualsEval(actual, expected) {
 
 module.exports.assertEqualsEval = assertEqualsEval;
 module.exports.assertEqualsRead = assertEqualsRead;
-// console.log("Test");
-// assertEqualsRead([{type:'test'}],[]);
-// assertEqualsRead([{type:'num'}],[]);
-// assertEqualsRead([{type:'num',value:1}],[{type:'num',value:1}]);
-// assertEqualsRead([{type:'num',value:1},{type:'num',value:3}],[{type:'num',value:2}]);
-// assertEqualsRead([{type:'test',value:1}],[]);
-// assertEqualsRead([{type:'num',value:1}],[]);
-// assertEqualsRead([{type:'num',value:1}],[{type:'num',value:2}]);
-// assertEqualsRead([{type:'apply',function:{type:'var',name:'function'},args:[{type:'var',name:'arg1'},{type:'var',name:'arg2'}]}],[{type:'apply',function:{type:'var',name:'function'},args:[{type:'var',name:'arg1'},{type:'var',name:'arg2'}]}])
-// assertEqualsRead([{type:'apply',function:{type:'internal',value:'+'},args:[{type:'var',name:'arg1'},{type:'var',name:'arg2'}]}],[{type:'apply',function:{type:'var',name:'function'},args:[{type:'var',name:'arg1'},{type:'var',name:'arg2'}]}]);
-// assertEqualsRead([{type:'apply',function:{type:'var',name:'function'},args:[{type:'var',name:'arg1'},{type:'var',name:'arg2'}]}],[{type:'apply',function:{type:'var',name:'function'},args:[{type:'var',name:'arg1'},{type:'var',name:'arg2'}]}])
-
-// assertEqualsRead([{type:'apply',function:{type:'var2',name:'function'},args:[{type:'var',name:'arg1'},{type:'var',name:'arg2'}]}],[{type:'apply',function:{type:'var',name:'function'},args:[{type:'var',name:'arg1'},{type:'var',name:'arg2'}]}])
-
-// console.log(test);
-// exit()
