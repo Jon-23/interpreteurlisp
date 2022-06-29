@@ -1,3 +1,6 @@
+// Author : Jonathan NEVEU & Khasinjy PRAXELE
+// Last Updated : 2022-06-29 09:58
+
 const { cp, stat } = require("fs");
 
 
@@ -21,16 +24,6 @@ function isInternal(val){
     }else{
         return false;
     }
-    // return new RegExp("[+| -|*|/]").test(val);
-}
-// console.log(isNumber('1324'));
-
-// function isNumber(char){
-//     return new RegExp("[0-9]").test(char);
-// }
-
-// [aA-zZ] // filter letters
-
 function addWithType(exp, type){
     // console.log(type);
     if(type.toLowerCase() == 'null'){
@@ -86,8 +79,6 @@ function readLine(elements,array=[],line_n){
     is_escaped = false;
     variable_mode = false;
     in_a_variable = null;
-    // console.log(in_a_variable);
-
     statistics = {
         parentheses :{
             n_open:0,
@@ -101,10 +92,6 @@ function readLine(elements,array=[],line_n){
             //Todo : Prends en compte selon une chaine de caractères
             if(elements[i] == open_with && is_escaped == false){
                 in_string = false;
-                // new_type_element = 'null';
-                
-                // temp_add = addWithType(temp_value, type_element);
-                // arbre[arbre.length-1]['args'].push(temp_add);
                 new_type_element = 'null';
             }else if(elements[i] == '\\'){
                 is_escaped != is_escaped;
@@ -116,23 +103,18 @@ function readLine(elements,array=[],line_n){
             if(elements[i] == "'" || elements[i] == '"'){
                 in_string = true;
                 open_with = elements[i];
-                // type_element = "string";
                 new_type_element = "string";
                 // continue;
             }else if(elements[i] == ';'){
                 new_type_element = "commentaire";
-                // console.log("ici");
             }else if(isNumber(elements[i]) && variable_mode == false){
                 new_type_element = 'integer';
-                // console.log(temp)
-                // console.log(elements[i]); //
             }else if(isString(elements[i]) || (isNumber(elements[i]) && variable_mode == true)){
                 new_type_element = 'variable';
                 variable_mode = true;
                 if(in_a_variable == null){
                     in_a_variable = true;
                 }
-                // console.log(elements[i]);
             }else if(isInternal(elements[i])){
                 new_type_element = 'internal';
             }else if(elements[i] == '('){
