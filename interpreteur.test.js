@@ -6,9 +6,12 @@ require.extensions['.lsp'] = function (module, filename) {
 var test = require("./test");
 var read = require("./read.js");
 var retour = require('./test.lsp');
+var printf = require("./printf.js");
 const { exit } = require('process');
 test = read.readJo(retour);
-console.log(JSON.stringify(test));
+printf.printf(test);
+
+// console.log(JSON.stringify(test));
 // read.readJo("a");
 while (true){
 

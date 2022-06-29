@@ -3,8 +3,8 @@
 ;; hello (a b c)
 ;; variable1 'test2'
 ;; variable2 'test'
-;; a 21
-;; b 34
+a 21
+b 34
 ;; (+ test)
 ;; test 1234
 ;; test (+ (+ 21 23) 34) 
