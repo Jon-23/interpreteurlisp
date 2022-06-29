@@ -13,6 +13,9 @@ const { exit } = require('process');
 // while (true){
 
 // }
+console.log(test.assertEqualsReadSimple({type:'test'},{type:'test2'}))
+while (true){
+}
 // exit();
 liste_test = [
     {

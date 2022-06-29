@@ -5,6 +5,42 @@
 - (function arg1 arg2) => {type:'apply',function:{type:'var',name:'function'},args:[{type:'var',name:'arg1'},{type:'var',name:'arg2'}]}}
 - (+ 1 2) => {type:'apply',function:{type:'internal',value:'+'},args:[{type:'num',value:1},{type:'num',value:2}]}}
 */
+function assertEqualsReadSimple(actual, expected) {
+    switch ((actual).constructor.name) {
+        case 'Number':
+        case 'String':
+        case 'Boolean':
+            return actual == expected;
+        case 'Object':
+            if (actual.length == expected.length) {
+                for (let [key] of Object.entries(actual)) {
+                    if (assertEqualsReadSimple(actual[key], expected[key])){
+                        continue;
+                    }
+                    return false;
+                }
+            }else{
+                return false;
+            }
+            break;
+        case 'Array':
+            if (actual.length == expected.length) {
+                for(var i = 0; i < actual.length; i++) {
+                    if (assertEqualsReadSimple(actual[i], expected[i])) {
+                        continue;
+                    }else{
+                        return false;
+                    }
+                }
+            }else{
+                return false;
+            }
+            break;
+        default:
+            return false;
+    }
+    return true;
+}
 
 function assertEqualsRead(actual, expected,gotparent=false,name="",debug=true){
     // console.log("test")
@@ -44,7 +80,7 @@ function assertEqualsRead(actual, expected,gotparent=false,name="",debug=true){
         num:'num',
         apply:'apply',
         var: 'var',
-        // string:'str',
+        string:'str',
         internal:'internal',
     };
     internal_values = {
@@ -283,3 +319,4 @@ function assertEqualsEval(actual, expected) {
 
 module.exports.assertEqualsEval = assertEqualsEval;
 module.exports.assertEqualsRead = assertEqualsRead;
+module.exports.assertEqualsReadSimple = assertEqualsReadSimple;
