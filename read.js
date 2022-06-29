@@ -146,7 +146,7 @@ function readLine(elements,array=[],line_n){
             }
             variable_mode = false;
             if(new_type_element == 'open_parenthesis'){
-                // arbre.push({
+                arbre.push({
                     type:'apply',
                 });
             }else if(new_type_element == 'close_parenthesis'){
