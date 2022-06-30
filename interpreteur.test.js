@@ -9,9 +9,9 @@ var retour = require('./test.lsp');
 var printf = require("./printf.js");
 const { exit } = require('process');
 test = read.readJo(retour);
-printf.printf(test);
+// printf.printf(test);
 
-// console.log(JSON.stringify(test));
+console.log(JSON.stringify(test));
 // read.readJo("a");
 while (true){
 

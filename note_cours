@@ -1,0 +1,11 @@
+eval[1 ,{}]
+=> 1
+
+eval[a,{a:1}]
+=> 1
+
+eval[(+ 1 2),{+:+lisp}]
+=> apply[eval[+,{+:+lisp}],mapeval[[1,2],{+:+lisp}]]
+=> apply[+lisp,[eval[1,{+:+lisp}],eval[2,{+:+lisp}]]]
+=> apply[+lisp,[1,2]]
+=> 3
