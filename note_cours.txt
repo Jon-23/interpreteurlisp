@@ -9,3 +9,4 @@ eval[(+ 1 2),{+:+lisp}]
 => apply[+lisp,[eval[1,{+:+lisp}],eval[2,{+:+lisp}]]]
 => apply[+lisp,[1,2]]
 => 3
+loko 

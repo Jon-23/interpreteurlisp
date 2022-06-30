@@ -1,3 +1,6 @@
+// const { default: test } = require('node:test');
+const { exit } = require('process');
+
 function fmap(f, ast) {
 	switch(ast.type) {
 		case "apply":
@@ -112,7 +115,197 @@ function print(ast) {
 	}
 }
 
-test = read("( a b c)");
+
+// Ajout Jonathan NEVEU
+
+function isset(element){
+    // Fonction permettant de vérifier si l'element est definit ou non.
+    if(typeof(element) == "undefined"){
+        return false;
+    }else{
+        return true;
+    }
+}
+
+element_types={
+    string: "str",
+    number: "num",
+    apply: "apply",
+    variable: "var",
+    internal: "internal",
+}
+element_attributes= {
+    value:"val",
+    type:"type",
+    function:"fun",
+    arguments: "args",
+    name:"name",
+}
+
+function what_type(element){
+    if(element == null){
+        return "Null";
+    }
+    return (element).constructor.name;
+}
+
+function isinternal(function_name){
+    if(function_name.length == 1){
+        return new RegExp("[+\-\/\*\.\?]").test(function_name);
+    }else{
+        return false;
+    }
+}
+function evalLisp(lispcontent,context){
+    let retour_evalLisp = false;
+    if(isset(lispcontent[element_attributes.type])){
+        switch(lispcontent[element_attributes.type]){
+            case element_types.string:
+            case element_types.number:
+                if (isset(lispcontent[element_attributes.value])){
+                    return lispcontent[element_attributes.value];
+                }else{
+                    console.error("Error: no value specified, in %s.",JSON.stringify(lispcontent));
+                    return 'undefined';
+                }
+                break;
+            case element_types.variable:
+                if(isset(lispcontent[element_attributes.name])){
+                    variable_name = lispcontent[element_attributes.name]
+                    if (isset(lispcontent[element_attributes.value])){
+                        return evalLisp(lispcontent[[element_attributes.value]],context);
+                    }else{
+                        console.warn("Warning: the value is set to null, due to no value specified, in %s.",)
+                        return null;
+                    }
+                }else{
+                    console.error("Error: no name specified for variable, in %s", JSON.stringify(lispcontent));
+                }
+                break;
+            // case element_types.internal:
+            case element_types.apply:
+                if(isset(lispcontent[element_attributes.function][element_attributes.name])){
+                    let local_fonction = lispcontent[element_attributes.function];
+                    let local_args = [];
+                    if (isset(lispcontent[element_attributes.arguments])){
+                        for (let i = 0; i < lispcontent[element_attributes.arguments].length; i++) {
+                            let temp_i = evalLisp(lispcontent[element_attributes.arguments][i],context);
+                            // console.log(temp_i);
+                            if(temp_i != 'undefined'){
+                                local_args.push(temp_i);
+                            }else{
+                                console.error("Error: arguments [%s] give a undefined, in %s",i,JSON.stringify(lispcontent));
+                                return false;
+                            }
+                        }
+                    }else{
+                        console.warn("Warning: no args specified for function '%s', in %s",local_fonction[element_attributes.name] ,JSON.stringify(lispcontent))
+                    }
+                    let resultat = null;
+                    if(isinternal(local_fonction[element_attributes.name])){
+                        if(local_fonction[element_attributes.name] == "+"){
+                            resultat = 0;
+                            for(let i=0;i<local_args.length;i++){
+                                if(what_type(resultat) != what_type(local_args[i])){
+                                    return "undefined";
+                                }else{
+                                    resultat += local_args[i]
+                                }
+                            }
+                        }else if(local_fonction[element_attributes.name] == "-"){
+                            resultat = 0;
+                            for(let i=0;i<local_args.length;i++){
+                                if(what_type(resultat) != what_type(local_args[i])){
+                                    return "undefined";
+                                }else{
+                                    resultat -= local_args[i]
+                                }
+                            }
+                        }else if (local_fonction[element_attributes.name] == "/"){
+                            resultat = 0;
+                            for(let i=0;i<local_args.length;i++){
+                                if(what_type(resultat) != what_type(local_args[i])){
+                                    return "undefined";
+                                }else if(local_args[i] == 0){
+                                    console.error("Error: Cannot devise by 0.");
+                                    return "undefined";
+                                }else if(i == 0){
+                                    resultat = local_args[i];
+                                }else{
+                                    resultat /= local_args[i]
+                                }
+                            }
+                        }else if(local_fonction[element_attributes.name] == "*"){
+                            resultat = 0;
+                            for(let i=0;i<local_args.length;i++){
+                                if(what_type(resultat) != what_type(local_args[i])){
+                                    return "undefined";
+                                }else if(i == 0){
+                                    resultat = local_args[i];
+                                }else{
+                                    resultat *= local_args[i]
+                                }
+                            }
+                        }else if(local_fonction[element_attributes.name] == "."){
+                            resultat = "";
+                            for(let i=0;i<local_args.length;i++){
+                                if(what_type(resultat) != what_type(local_args[i])){
+                                    return "undefined";
+                                }else{
+                                    resultat += local_args[i]
+                                }
+                            }
+                        }else if(local_fonction[element_attributes.name] == "?"){
+                            if(local_args.length > 3 || local_args.length <= 0){
+                                console.error("Error: condition must have at least 2 arguments or maximum 3 arguments.")
+                            }else{
+                                let statement = local_args[0];
+                                let correct = local_args[1];
+                                let incorrect = local_args[2];
+                                if(what_type(statement) == "Boolean"){
+                                    if(statement){
+                                        return correct;
+                                    }else{
+                                        return incorrect;
+                                    }
+                                }else{
+                                    console.error("Error: first arguments of the condition must be boolean.");
+                                    return "undefined";
+                                }
+                            }
+                        }else{
+                            console.error("Error: name not recognized.");
+                            return "undefined"
+                        }
+                        // return true;
+                        // console.info(JSON.stringify(local_args));
+                        // return true;
+                    }else{
+                        return "undefined";
+                    }
+                    return resultat;
+                }else{
+                    console.error("Error: no function specified in a apply, in %s", JSON.stringify(lispcontent));
+                    return false;
+                }
+                break;
+            default:
+                console.error("Error: '%s' type not supported.", lispcontent.type);
+                return false;
+        }
+        // return true;
+    }else{
+        return false;
+    }
+}
+
+test = read("variable (test)");
+let context = {}
 console.log(JSON.stringify(test));
-jo = {"type":"apply","fun":{"type":"var","name":"a"},"args":[{"type":"var","name":"b"},{"type":"var","name":"c"}]};
-console.log(JSON.stringify(jo) == JSON.stringify(test));
+// console.log(evalLisp(test,context));
+test_eval = evalLisp(test, context);
+console.log(test_eval);
+exit();
+
+// jo = {"type":"apply","fun":{"type":"var","name":"a"},"args":[{"type":"var","name":"b"},{"type":"var","name":"c"}]};
+// console.log(JSON.stringify(jo) == JSON.stringify(test));
