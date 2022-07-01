@@ -1,3 +1,10 @@
+const contextDeBase = [
+	{lambda: {type:"special", fun : (a,c) =>({ type:"lambda", params:[a[0].fun].concat(a[0].args), body:a[1]})} },
+	{"+": {type:"intern", fun : (a,b) => ({type:"num", val: a.val + b.val})} },
+	{"-": {type:"intern", fun : (a,b) => ({type:"num", val: a.val - b.val})} },
+	{"*": {type:"intern", fun : (a,b) => ({type:"num", val: a.val * b.val})} }
+];
+
 function _eval(expr, ctx) {
 	switch(expr.type) {
 		case "num":
